@@ -59,4 +59,4 @@ if (document.getElementById('minAmount')) {
 }
 
 // 일정 간격으로 후원자 목록 갱신
-setInterval(renderOverlay, 5000);  // 5초마다 갱신
+setInterval(renderOverlay, 3000);  // 3초마다 갱신
