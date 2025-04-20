@@ -1,14 +1,25 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
   <title>후원 오버레이</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: transparent;
+      color: white;
+    }
+    .donation-item {
+      font-size: 24px;
+      margin: 10px 0;
+    }
+  </style>
 </head>
 <body>
-  <div class="donation-list" id="donationList"></div>
+  <div id="donation-list"></div>
 
+  <!-- 순서 중요: data.js 먼저! -->
+  <script src="data.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
