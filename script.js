@@ -1,11 +1,6 @@
-// 후원 데이터를 로드하는 함수 (data.json 파일을 사용하는 방식)
+// 후원 데이터를 로드하는 함수 (localStorage에서 데이터 로드)
 function loadDonations() {
-  return fetch('data.json') // data.json 파일이 같은 디렉터리에 있어야 합니다.
-    .then(response => response.json()) // JSON으로 응답을 파싱
-    .catch(error => {
-      console.error("JSON 로드 오류:", error);
-      return [];
-    });
+  return JSON.parse(localStorage.getItem('donations') || '[]'); // localStorage에서 후원자 목록을 불러옴
 }
 
 // 후원 데이터를 저장하는 함수 (localStorage에 저장)
@@ -15,14 +10,13 @@ function saveDonations(list) {
 
 // 후원자 목록을 화면에 표시하는 함수
 function renderOverlay() {
-  loadDonations().then(list => {
-    const min = loadConfig();  // 최소 금액 설정을 로드
-    const filtered = list.filter(d => d.amount >= min);  // 최소 금액 이상인 후원자 필터링
-    const target = document.getElementById('donationList');  // 후원자 목록을 표시할 div
-    if (target) {
-      target.innerHTML = filtered.map(d => `${d.name} - ${d.amount}`).join('<br>');  // 후원자 목록을 HTML로 삽입
-    }
-  });
+  const list = loadDonations();  // localStorage에서 후원자 목록을 로드
+  const min = loadConfig();  // 최소 금액 설정을 로드
+  const filtered = list.filter(d => d.amount >= min);  // 최소 금액 이상인 후원자 필터링
+  const target = document.getElementById('donationList');  // 후원자 목록을 표시할 div
+  if (target) {
+    target.innerHTML = filtered.map(d => `${d.name} - ${d.amount}`).join('<br>');  // 후원자 목록을 HTML로 삽입
+  }
 }
 
 // 최소 금액을 로드하는 함수 (localStorage에 저장된 값 가져오기)
@@ -39,11 +33,10 @@ function saveConfig() {
 
 // 후원 추가 함수
 function addDonation(name, amount) {
-  loadDonations().then(list => {
-    list.push({ name, amount }); // 새로운 후원자 추가
-    saveDonations(list);  // 후원 목록을 저장
-    renderOverlay();  // 후원 목록 갱신
-  });
+  const list = loadDonations();  // 후원자 목록을 로드
+  list.push({ name, amount }); // 새로운 후원자 추가
+  saveDonations(list);  // 후원 목록을 저장
+  renderOverlay();  // 후원 목록 갱신
 }
 
 // 후원 입력 폼 처리
